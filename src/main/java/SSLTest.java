@@ -10,8 +10,6 @@ import org.apache.mina.filter.codec.textline.TextLineCodecFactory;
 import org.apache.mina.filter.ssl.SslFilter;
 import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
 import org.apache.mina.transport.socket.nio.NioSocketConnector;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
@@ -41,9 +39,16 @@ public class SSLTest {
 
 
     public static class ClientHandler extends IoHandlerAdapter {
+        private String prompt;
+
+        public ClientHandler (String prompt) {
+            this.prompt = prompt;
+        }
+
         @Override
         public void messageReceived(IoSession session, Object message) throws Exception {
-            System.out.println ("Got " + message.toString());
+            System.out.println ("\nGot " + message.toString());
+            System.out.print (prompt);
         }
     }
 
@@ -264,10 +269,13 @@ public class SSLTest {
 
             connector.getFilterChain().addLast( "codec", new ProtocolCodecFilter( new TextLineCodecFactory( Charset.forName( "UTF-8" ))));
 
-            ClientHandler clientHandler = new ClientHandler();
+            String prompt = host + ":" + port +"> ";
+
+            ClientHandler clientHandler = new ClientHandler(prompt);
             connector.setHandler(clientHandler);
 
             System.out.println ("connecting to " + host + ":" + port);
+
 
             InetSocketAddress address = new InetSocketAddress(host, port);
             ConnectFuture connectFuture = connector.connect(address);
@@ -275,7 +283,6 @@ public class SSLTest {
 
             IoSession session = connectFuture.getSession();
 
-            String prompt = host + ":" + port +"> ";
             System.out.print(prompt);
 
             InputStreamReader inputStreamReader = new InputStreamReader(System.in);
@@ -303,7 +310,6 @@ public class SSLTest {
     }
 
     public static void configureLg4j (String filename) {
-        System.out.println ("Configuring log4j with " + filename);
         DOMConfigurator.configure(filename);
     }
 
@@ -312,8 +318,6 @@ public class SSLTest {
         CommandLine commandLine = new CommandLine(argv);
 
         configureLg4j(commandLine.getLog4jFilename());
-        Logger logger = LoggerFactory.getLogger(SSLTest.class);
-        logger.info("test");
 
         SSLTest sslTest = new SSLTest(commandLine.useTls());
 

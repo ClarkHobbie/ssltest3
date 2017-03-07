@@ -34,12 +34,14 @@ keytool -import -keystore serverkeystore -storepass whatever -file server.cer -a
 
 Compile the program with the following command:
 
-javac -cp lib\mina-core-2.0.16.jar;lib\log4j-to-slf4j-2.8.1.jar src\main\java\SSLTest.java
+mvn package
 
 Run the server with the following
 
-java -cp src\main\java;lib\mina-core-2.0.16.jar;lib\log4j-to-slf4j-2.8.1.jar SSLTest server
+java -cp target\ssltest3-1.0-SNAPSHOT-jar-with-dependencies.jar SSLTest server
 
 In another window, run the client with the following command
 
-java -cp src\main\java;lib\mina-core-2.0.16.jar;lib\log4j-to-slf4j-2.8.1.jar SSLTest client
+java -cp target\ssltest3-1.0-SNAPSHOT-jar-with-dependencies.jar SSLTest client
+
+When the client gets a connection it should prompt you with a string like "localhost:6789> ".  Type in something and it should be echoed back.  Quit by entering "quit".
