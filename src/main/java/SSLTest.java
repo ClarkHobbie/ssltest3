@@ -1,3 +1,4 @@
+import org.apache.log4j.xml.DOMConfigurator;
 import org.apache.mina.core.future.CloseFuture;
 import org.apache.mina.core.future.ConnectFuture;
 import org.apache.mina.core.service.IoAcceptor;
@@ -9,6 +10,8 @@ import org.apache.mina.filter.codec.textline.TextLineCodecFactory;
 import org.apache.mina.filter.ssl.SslFilter;
 import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
 import org.apache.mina.transport.socket.nio.NioSocketConnector;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
@@ -52,6 +55,15 @@ public class SSLTest {
         private boolean useTls = true;
         private String host = "localhost";
         private int port = 6789;
+        private String log4jFilename = "log4j.xml";
+
+        public String getLog4jFilename() {
+            return log4jFilename;
+        }
+
+        public void setLog4jFilename(String log4jFilename) {
+            this.log4jFilename = log4jFilename;
+        }
 
         public String[] getArgv () {
             return argv;
@@ -114,20 +126,39 @@ public class SSLTest {
                 advance();
             }
 
+            //
+            // client/server mode
+            //
             if (null != getArg()) {
                 setMode(getArg());
                 advance();
             }
 
+            //
+            // host
+            //
             if (null != getArg()) {
                 setHost(getArg());
                 advance();
             }
 
+            //
+            // port
+            //
             if (null != getArg()) {
                 int temp = Integer.parseInt(getArg());
                 setPort(temp);
                 advance();
+            }
+
+            while (null != getArg())
+            {
+                if (getArg().equalsIgnoreCase("-l"))
+                {
+                    advance();
+                    setLog4jFilename(getArg());
+                    advance();
+                }
             }
         }
     }
@@ -227,6 +258,7 @@ public class SSLTest {
 
             if (useTls()) {
                 SslFilter sslFilter = new SslFilter(sslContext);
+                sslFilter.setUseClientMode(true);
                 connector.getFilterChain().addLast("tls", sslFilter);
             }
 
@@ -270,8 +302,19 @@ public class SSLTest {
         }
     }
 
+    public static void configureLg4j (String filename) {
+        System.out.println ("Configuring log4j with " + filename);
+        DOMConfigurator.configure(filename);
+    }
+
+
     public static void main (String[] argv) {
         CommandLine commandLine = new CommandLine(argv);
+
+        configureLg4j(commandLine.getLog4jFilename());
+        Logger logger = LoggerFactory.getLogger(SSLTest.class);
+        logger.info("test");
+
         SSLTest sslTest = new SSLTest(commandLine.useTls());
 
         if (commandLine.getMode().equalsIgnoreCase("server"))
