@@ -32,7 +32,7 @@ keytool -import -keystore serverkeystore -storepass whatever -file ca-certificat
 
 keytool -import -keystore serverkeystore -storepass whatever -file server.cer -alias server
 
-Compile the program with the following command:
+Compile the program with the following command (you must have maven installed):
 
 mvn package
 
