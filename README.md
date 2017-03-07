@@ -6,11 +6,17 @@ You can either use the truststore and serverkeystore files that came with the pr
 or create new ones.  To create new files (in bief) use the following commands:
 
 `openssl req -x509 -newkey rsa:2048 -keyout ca-key.pem.txt -out ca-certificate.pem.txt -days 365 -nodes`
+
 `keytool -import -keystore truststore -file ca-certificate.pem.txt -alias ca -storepass whatever`
+
 `keytool –keystore serverkeystore –genkey –alias server -keyalg rsa -storepass whatever`
+
 `keytool –keystore serverkeystore -storepass whatever –certreq –alias server –file server.csr`
+
 `openssl x509 -req -CA ca-certificate.pem.txt -CAkey ca-key.pem.txt -in server.csr -out server.cer -days 365 –CAcreateserial`
+
 `keytool -import -keystore serverkeystore -storepass whatever -file ca-certificate.pem.txt -alias ca`
+
 `keytool -import -keystore serverkeystore -storepass whatever -file server.cer -alias server`
 
 Compile the program with the following command (you must have maven installed):
