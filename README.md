@@ -57,11 +57,11 @@ openssl x509 -req -CA ca-certificate.pem.txt -CAkey ca-key.pem.txt -in server.cs
 
 6) Import the local CA to the server keystore
 
-keytool -importcert -keystore serverkeystore -storepass whatever -file ca-certificate.pem.txt -alias ca
+keytool -importcert -keystore keystore -storepass whatever -file ca-certificate.pem.txt -alias ca
 
 7) Import the singed certificate to the sever keystore
 
-keytool -importcert -keystore serverkeystore -storepass whatever -file server.cer -alias server
+keytool -importcert -keystore keystore -storepass whatever -file server.cer -alias server
 
 Compile the program with the following command (you must have maven installed):
 
