@@ -9,7 +9,7 @@ or create new ones.  To create new files (in bief) use the following commands:
 
 `keytool -importcert -keystore truststore -file ca-certificate.pem.txt -alias ca -storepass whatever`
 
-`keytool –keystore serverkeystore –genkey –alias server -keyalg rsa -storepass whatever`
+`keytool –keystore serverkeystore –genkey –alias private -keyalg rsa -storepass whatever`
 
 `keytool –keystore serverkeystore -storepass whatever –certreq –alias server –file server.csr`
 
