@@ -45,11 +45,11 @@ keytool -importcert -keystore truststore -file ca-certificate.pem.txt -alias ca 
 
 3) Create the keystore
 
-keytool –keystore keystore –genkey –alias server -keyalg rsa -storepass whatever
+keytool –keystore keystore –genkey –alias private -keyalg rsa -storepass whatever
 
 4) Create a certificate signing request
 
-keytool –keystore keystore -storepass whatever –certreq –alias server  –file server.csr
+keytool –keystore keystore -storepass whatever –certreq –alias private –file server.csr
 
 5) Sign the server CSR with the local CA
 
@@ -61,7 +61,7 @@ keytool -importcert -keystore keystore -storepass whatever -file ca-certificate.
 
 7) Import the singed certificate to the sever
 
-keytool -importcert -keystore keystore -storepass whatever -file server.cer -alias server
+keytool -importcert -keystore keystore -storepass whatever -file server.cer -alias private
 
 Compile the program with the following command (you must have maven installed):
 
