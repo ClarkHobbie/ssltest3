@@ -61,7 +61,7 @@ keytool -importcert -keystore keystore -storepass whatever -file ca-certificate.
 
 7) Import the singed certificate to the sever
 
-keytool -importcert -keystore keystore -storepass whatever -file server.cer -alias private
+keytool -importcert -keystore keystore -storepass whatever -file private.cer -alias private
 
 Compile the program with the following command (you must have maven installed):
 
