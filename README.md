@@ -33,7 +33,7 @@ java -cp target\ssltest3-1.0-SNAPSHOT-jar-with-dependencies.jar SSLTest client
 
 When the client gets a connection it should prompt you with a string like "localhost:6789> ".  Type in something and it should be echoed back.  Quit by entering "quit".
 
-In a slightly more accessible format, here are the commands to create the truststore and serverkeystore.
+In a slightly more accessible format, here are the commands to create the truststore and keystore.
 
 1) Create the local CA self-signed certificate and private key
 
@@ -49,13 +49,13 @@ keytool –keystore keystore –genkey –alias private -keyalg rsa -storepass w
 
 4) Create a certificate signing request
 
-keytool –keystore keystore -storepass whatever –certreq –alias private –file server.csr
+keytool –keystore keystore -storepass whatever –certreq –alias private –file private.csr
 
-5) Sign the server CSR with the local CA
+5) Sign the CSR with the local CA
 
-openssl x509 -req -CA ca-certificate.pem.txt -CAkey ca-key.pem.txt -in server.csr -out server.cer -days 365 –CAcreateserial
+openssl x509 -req -CA ca-certificate.pem.txt -CAkey ca-key.pem.txt -in private.csr -out private.cer -days 365 –CAcreateserial
 
-6) Import the local CA to the server
+6) Import the local CA to the keystore
 
 keytool -importcert -keystore keystore -storepass whatever -file ca-certificate.pem.txt -alias ca
 
