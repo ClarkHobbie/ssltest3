@@ -43,11 +43,11 @@ openssl req -x509 -newkey rsa:2048 -keyout ca-key.pem.txt -out ca-certificate.pe
 
 keytool -importcert -keystore truststore -file ca-certificate.pem.txt -alias ca  -storepass whatever
 
-3) Create the server keystore
+3) Create the keystore
 
-keytool –keystore serverkeystore –genkey –alias server -keyalg rsa -storepass whatever
+keytool –keystore keystore –genkey –alias server -keyalg rsa -storepass whatever
 
-4) Create a certificate signing request for the server
+4) Create a certificate signing request
 
 keytool –keystore serverkeystore -storepass whatever –certreq –alias server  –file server.csr
 
@@ -55,11 +55,11 @@ keytool –keystore serverkeystore -storepass whatever –certreq –alias serve
 
 openssl x509 -req -CA ca-certificate.pem.txt -CAkey ca-key.pem.txt -in server.csr -out server.cer -days 365 –CAcreateserial
 
-6) Import the local CA to the server keystore
+6) Import the local CA to the server
 
 keytool -importcert -keystore keystore -storepass whatever -file ca-certificate.pem.txt -alias ca
 
-7) Import the singed certificate to the sever keystore
+7) Import the singed certificate to the sever
 
 keytool -importcert -keystore keystore -storepass whatever -file server.cer -alias server
 
