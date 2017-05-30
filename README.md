@@ -11,13 +11,13 @@ or create new ones.  To create new files (in bief) use the following commands:
 
 `keytool –keystore serverkeystore –genkey –alias private -keyalg rsa -storepass whatever`
 
-`keytool –keystore serverkeystore -storepass whatever –certreq –alias server –file server.csr`
+`keytool –keystore serverkeystore -storepass whatever –certreq –alias server –file private.csr`
 
-`openssl x509 -req -CA ca-certificate.pem.txt -CAkey ca-key.pem.txt -in server.csr -out server.cer -days 365 –CAcreateserial`
+`openssl x509 -req -CA ca-certificate.pem.txt -CAkey ca-key.pem.txt -in private.csr -out private.cer -days 365 –CAcreateserial`
 
 `keytool -importcert -keystore keystore -storepass whatever -file ca-certificate.pem.txt -alias ca`
 
-`keytool -importcert -keystore keystore -storepass whatever -file server.cer -alias server`
+`keytool -importcert -keystore keystore -storepass whatever -file private.cer -alias private`
 
 Compile the program with the following command (you must have maven installed):
 
