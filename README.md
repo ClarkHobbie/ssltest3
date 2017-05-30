@@ -49,7 +49,7 @@ keytool –keystore keystore –genkey –alias server -keyalg rsa -storepass wh
 
 4) Create a certificate signing request
 
-keytool –keystore serverkeystore -storepass whatever –certreq –alias server  –file server.csr
+keytool –keystore keystore -storepass whatever –certreq –alias server  –file server.csr
 
 5) Sign the server CSR with the local CA
 
