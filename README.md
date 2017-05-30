@@ -15,9 +15,9 @@ or create new ones.  To create new files (in bief) use the following commands:
 
 `openssl x509 -req -CA ca-certificate.pem.txt -CAkey ca-key.pem.txt -in server.csr -out server.cer -days 365 –CAcreateserial`
 
-`keytool -importcert -keystore serverkeystore -storepass whatever -file ca-certificate.pem.txt -alias ca`
+`keytool -importcert -keystore keystore -storepass whatever -file ca-certificate.pem.txt -alias ca`
 
-`keytool -importcert -keystore serverkeystore -storepass whatever -file server.cer -alias server`
+`keytool -importcert -keystore keystore -storepass whatever -file server.cer -alias server`
 
 Compile the program with the following command (you must have maven installed):
 
